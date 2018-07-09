@@ -1,4 +1,4 @@
 *.css.json
 node_modules
-build
+dist
 yarn-error.log

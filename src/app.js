@@ -30,7 +30,7 @@ const App = () => (
       <Dev />
       <Layout height="parent" className={styles.page}>
         <Header fixed="top" pages={pages} />
-        <Layout height="parent" marginTop={7.5}>
+        <Layout height="parent" marginTop={7.5} align="top">
           <Layout height="auto">
             <Root>
               <Grid marginBottom={0} marginTop="L">

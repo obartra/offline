@@ -43,6 +43,27 @@ module.exports = {
             options: { minimize: true }
           }
         ]
+      },
+      {
+        test: /\.(ttf|mp4)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[path][name].[ext]?[hash:6]"
+          }
+        }
+      },
+      {
+        test: /\.(png|svg)$/i,
+        use: [
+          "file-loader",
+          {
+            loader: "image-webpack-loader",
+            options: {
+              bypassOnDebug: true
+            }
+          }
+        ]
       }
     ]
   },
@@ -63,7 +84,7 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: resolve(__dirname, "./assets"),
-        to: resolve(__dirname, "./build")
+        to: resolve(__dirname, "./dist/static")
       }
     ]),
     new SriPlugin({
@@ -77,14 +98,18 @@ module.exports = {
     // keep it last
     new OfflinePlugin({
       safeToUseOptionalCaches: true,
-      caches: "all",
+      caches: {
+        main: [":rest:", ":externals:"],
+        additional: ["*.chunk.js", "**/*.png", "**/*.ttf"]
+      },
       version: "[hash:6]",
       updateStrategy: "all",
-      excludes: ["**/*.map"], // Don't cache source maps
+      excludes: ["**/*.map", "**/*.mp4"], // Don't cache
       autoUpdate: true,
       AppCache: false,
       ServiceWorker: {
-        events: true
+        events: true,
+        minify: true
       }
     })
   ]
